@@ -1,20 +1,22 @@
 import domain.Marathoner;
 import domain.Utility;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MarathonResultTests {
+    List<Marathoner> marathoners;
 
-    @Test
-    public void bestTimeTest() {
-        List<Marathoner> marathoners = new ArrayList<>();
+    @BeforeEach
+    public void init() {
+        marathoners = new ArrayList<>();
         Arrays.stream(Utility.MARATHONERS_STRINGS).map(marathonerString -> marathonerString.split("\\s+"))
                 .forEach(marathonerStringsData -> {
                     Marathoner marathoner = new Marathoner();
@@ -27,12 +29,27 @@ public class MarathonResultTests {
                     marathoner.setClubName(marathonerStringsData[6]);
                     marathoners.add(marathoner);
                 });
-        Duration bestTime = ChronoUnit.FOREVER.getDuration();
-        for (Marathoner marathoner : marathoners) {
-            if (marathoner.getDurationRun().compareTo(bestTime) < 0) {
-                bestTime = marathoner.getDurationRun();
-            }
-        }
-        Assertions.assertEquals(Duration.ofSeconds(LocalTime.parse("02:01:09").toSecondOfDay()), bestTime);
+    }
+
+    @AfterEach
+    public void clear() {
+        marathoners.clear();
+    }
+
+    @Test
+    public void bestTimeTest() {
+        Assertions.assertEquals(Duration.ofSeconds(LocalTime.parse("02:01:09").toSecondOfDay()),
+                Utility.bestResult(marathoners));
+    }
+
+    @Test
+    public void bestTimeNotBestTest() {
+        Assertions.assertNotEquals(Duration.ZERO, Utility.bestResult(marathoners));
+    }
+
+    @Test
+    public void bestTimeNull() {
+        marathoners.clear();
+        Assertions.assertNull(Utility.bestResult(marathoners));
     }
 }
