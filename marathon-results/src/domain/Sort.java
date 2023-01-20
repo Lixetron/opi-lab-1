@@ -4,7 +4,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Сортировки
+ *
+ * @author Dmitry Khlopchenko
+ */
 public interface Sort {
+    /**
+     * Сортирует список пузырьком (Bubble Sort)
+     *
+     * @param list       Исходный список
+     * @param comparator компаратор, на основании которого сортировать
+     */
     static <T> void bubbleSort(List<T> list, Comparator<T> comparator) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = 0; j < list.size() - i - 1; j++) {
@@ -15,6 +26,14 @@ public interface Sort {
         }
     }
 
+    /**
+     * Сортирует список быстрой сортировкой (Quick Sort/Сортировка Хоара)
+     *
+     * @param list       Исходный список
+     * @param low        Нижняя граница сортируемого участка списка
+     * @param high       Верхняя граница сортируемого участка списка
+     * @param comparator компаратор, на основании которого сортировать
+     */
     static <T> void quickSort(List<T> list, int low, int high, Comparator<T> comparator) {
         if (list.size() == 0 || low >= high) {
             return;
@@ -43,6 +62,12 @@ public interface Sort {
         }
     }
 
+    /**
+     * Сортирует список быстрой сортировкой (Quick Sort/Сортировка Хоара)
+     *
+     * @param list       Исходный список
+     * @param comparator компаратор, на основании которого сортировать
+     */
     static <T> void quickSort(List<T> list, Comparator<T> comparator) {
         if (list.size() == 0) {
             return;
