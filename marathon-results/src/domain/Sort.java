@@ -69,30 +69,6 @@ public interface Sort {
      * @param comparator компаратор, на основании которого сортировать
      */
     static <T> void quickSort(List<T> list, Comparator<T> comparator) {
-        if (list.size() == 0) {
-            return;
-        }
-        int middle = (list.size() - 1) / 2;
-        T prop = list.get(middle);
-        int i = 0, j = list.size() - 1;
-        while (i <= j) {
-            while (comparator.compare(list.get(i), prop) < 0) {
-                i++;
-            }
-            while (comparator.compare(list.get(j), prop) > 0) {
-                j--;
-            }
-            if (i <= j) {
-                Collections.swap(list, i, j);
-                i++;
-                j--;
-            }
-        }
-        if (0 < j) {
-            quickSort(list, 0, j, comparator);
-        }
-        if (list.size() - 1 > i) {
-            quickSort(list, i, list.size() - 1, comparator);
-        }
+        quickSort(list, 0, list.size()-1, comparator);
     }
 }
