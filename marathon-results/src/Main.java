@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
@@ -37,14 +38,19 @@ public class Main {
                 marathoner.setPatronymic(strings[3]);
                 marathoner.setStartTime(LocalTime.parse(strings[4]));
                 marathoner.setFinishTime(LocalTime.parse(strings[5]));
-                marathoner.setClubName(strings[6]);
+                IntStream.range(6, strings.length)
+                        .forEach(i -> marathoner.setClubName(marathoner.getClubName() != null
+                                ? "%s %s".formatted(marathoner.getClubName(), strings[i])
+                                : strings[i]));
                 marathoners.add(marathoner);
             }
             System.out.println("\nAll marathoners:");
             marathoners.forEach(System.out::println);
 
             System.out.println("\nMarathoners with Club: \"Спартак\":");
-            marathoners.stream().filter(marathoner -> marathoner.getClubName().equals("\"Спартак\"")).forEach(System.out::println);
+            marathoners.stream()
+                    .filter(marathoner -> marathoner.getClubName().equals("\"Спартак\""))
+                    .forEach(System.out::println);
 
             System.out.println("\nMarathoners with result better then 2:50:00:");
             marathoners.stream()
