@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class MarathonResultTests {
     List<Marathoner> marathoners;
@@ -26,7 +27,10 @@ public class MarathonResultTests {
                     marathoner.setPatronymic(marathonerStringsData[3]);
                     marathoner.setStartTime(LocalTime.parse(marathonerStringsData[4]));
                     marathoner.setFinishTime(LocalTime.parse(marathonerStringsData[5]));
-                    marathoner.setClubName(marathonerStringsData[6]);
+                    IntStream.range(6, marathonerStringsData.length)
+                            .forEach(i -> marathoner.setClubName(marathoner.getClubName() != null
+                                    ? "%s %s".formatted(marathoner.getClubName(), marathonerStringsData[i])
+                                    : marathonerStringsData[i]));
                     marathoners.add(marathoner);
                 });
     }
